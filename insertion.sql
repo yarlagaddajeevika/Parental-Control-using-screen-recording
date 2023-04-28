@@ -7,3 +7,6 @@ IF OBJECT_ID('UserDetails', 'U') IS NULL
 				INSERT INTO UserDetails
 				VALUES('jeevika','yarlagadda','jeevika@gmail.com','jeevika','abc')
 			 END
+
+select userId from UserDetails where username='jeevika'
+

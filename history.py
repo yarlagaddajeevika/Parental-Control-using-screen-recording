@@ -6,4 +6,3 @@ outputs = f.fetch_history()
 # his is a list of (datetime.datetime, url) tuples
 his = outputs.histories
 
-print(his)
