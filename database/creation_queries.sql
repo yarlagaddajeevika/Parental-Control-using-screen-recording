@@ -5,23 +5,19 @@ IF NOT EXISTS(SELECT name FROM sys.databases WHERE name='PARENTALCONTROL')
 GO
   USE PARENTALCONTROL
 
-
 ---------------------------------------------------------------
 ------------------ CREATE TABLES ---------------------------
 ---------------------------------------------------------------
 ---------------- Table 1. Login----------------------------
-----------DEPARTMENT NUMBER: start:100 -------------------------------
+----------User Id: start:8000000 -------------------------------
 IF OBJECT_ID('User', 'U') IS NOT NULL
    BEGIN
-		PRINT 'User TABLE  ALREADY EXISTS'
+		PRINT 'User TABLE ALREADY EXISTS'
    END
 ELSE
    BEGIN
 		CREATE TABLE UserDetails(
 		  userId Integer IDENTITY(8000000,1) NOT NULL PRIMARY KEY,
-		  firstname varchar(50) NOT NULL,
-		  lastname varchar(50) NOT NULL,
-		  Email varchar(100) NOT NULL UNIQUE, 
 		  username varchar(40) NOT NULL UNIQUE,
 		  upassword varchar(10) NOT NULL CHECK(len(upassword)<=10)
 		  )
