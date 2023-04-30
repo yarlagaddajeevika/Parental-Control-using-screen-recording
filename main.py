@@ -4,6 +4,7 @@ from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QDialog, QApplication, QWidget
 from PyQt5.QtGui import QPixmap
 import screen_recording as sr
+import load_model as lm
 import sys
 sys.path.append('database')
 import databaseConnection as db
@@ -92,23 +93,22 @@ class CreateAccScreen(QDialog):
         login = LoginScreen()
         widget.addWidget(login)
         widget.setCurrentIndex(widget.currentIndex()+1)
+        
 
 class HomeScreen(QDialog):
     def __init__(self):
         super(HomeScreen, self).__init__()
         loadUi("./UI/home.ui",self)
-        self.startrecording.clicked.connect(self.recording)
-        self.stoprecording.clicked.connect(self.stoprecording)
-    
-    def recording(self):
-        print("Clicked")
-        # sr.screenRecording() ########################
-    
-    def stoprecording():
-        print('stop')
-        sys.exit()
-        print('stpped')
-        
+        self.start.clicked.connect(self.gotologin)
+        self.stop.clicked.connect(self.gotocreate)
+
+    def gotologin(self):
+        print("start")
+        sr.record_screen_and_audio("recording.mp4")
+
+    def gotocreate(self):
+        print("stop")
+        lm.model()
 
 class FillProfileScreen(QDialog):
     def __init__(self):
