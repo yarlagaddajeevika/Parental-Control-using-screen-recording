@@ -42,7 +42,7 @@ background-color:qlineargradient(spread:pad, x1:0.091, y1:0.101636, x2:0.991379,
      <string>Welcome to OurPact</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="startrecording">
+   <widget class="QPushButton" name="start">
     <property name="geometry">
      <rect>
       <x>440</x>
@@ -60,7 +60,7 @@ font: 14pt &quot;MS Shell Dlg 2&quot;;</string>
      <string>Start Recording</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="startrecording">
+   <widget class="QPushButton" name="stop">
     <property name="geometry">
      <rect>
       <x>440</x>
