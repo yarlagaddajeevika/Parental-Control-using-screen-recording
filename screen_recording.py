@@ -1,40 +1,44 @@
-import pyautogui
 import cv2
 import numpy as np
+import pyautogui
 import sounddevice as sd
-import scipy.io.wavfile as wav
+from scipy.io.wavfile import write
 
-# Set the resolution and framerate of the recording
-resolution = (1920, 1080)
-fps = 30
+# Set screen resolution and framerate
+screen_size = (1920, 1080)
+fps = 30.0
+duration = 10.0
 
-# Set the duration of the recording in seconds
-duration = 600 #10min
+# Set audio parameters
+sample_rate = 44100
+channels = 2
 
-# Start recording audio
-fs = 44100
-duration_samps = duration * fs
-recording = sd.rec(duration_samps, samplerate=fs, channels=2)
-
-# Start recording screen
+# Start recording audio and video
+print("Recording audio and video...")
 fourcc = cv2.VideoWriter_fourcc(*"mp4v")
-video_writer = cv2.VideoWriter("screen_recording.mp4", fourcc, fps, resolution)
+out = cv2.VideoWriter("output.mp4", fourcc, fps, screen_size)
+recording = sd.rec(int(sample_rate * duration), samplerate=sample_rate, channels=channels)
 
-for i in range(duration * fps):
-    # Capture the screen and convert to numpy array
+# Loop over the frames and write to output video
+for i in range(int(fps * duration)):
+    # Capture screen image and convert to numpy array
     img = pyautogui.screenshot()
     frame = np.array(img)
 
-    # Convert from BGR to RGB
+    # Convert BGR to RGB
     frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
-    # Write the frame to the video writer
-    video_writer.write(frame)
+    # Write frame to output video
+    out.write(frame)
 
-# Stop recording audio and save the wav file
-sd.wait()
-wav.write("audio_recording.wav", fs, recording)
+    # Record audio
+    audio = sd.wait()
 
-# Release the video writer and close the window
-video_writer.release()
+# Save audio as WAV file
+write("audio.wav", sample_rate, recording)
+
+# Release video writer and close window
+out.release()
 cv2.destroyAllWindows()
+
+print("Screen and audio recording finished.")

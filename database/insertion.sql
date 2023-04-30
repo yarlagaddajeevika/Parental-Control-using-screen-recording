@@ -1,3 +1,4 @@
+USE PARENTALCONTROL
 IF OBJECT_ID('UserDetails', 'U') IS NULL
 			 BEGIN
 				PRINT ' UserDetails TABLE DOES NOT EXISTS'
@@ -8,5 +9,10 @@ IF OBJECT_ID('UserDetails', 'U') IS NULL
 				VALUES('jeevika','abc')
 			 END
 
-select userId from UserDetails where username='jeevika'
+USE PARENTALCONTROL
+INSERT INTO UserDetails VALUES('ab','ab')
+select upassword from UserDetails where username='jeevika'
+select * from UserDetails
 
+
+drop database PARENTALCONTROL

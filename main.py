@@ -3,6 +3,10 @@ from PyQt5.uic import loadUi
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QDialog, QApplication, QWidget
 from PyQt5.QtGui import QPixmap
+import screen_recording as sr
+import sys
+sys.path.append('database')
+import databaseConnection as db
 
 import sqlite3
 
@@ -30,6 +34,11 @@ class LoginScreen(QDialog):
         loadUi("./UI/login.ui",self)
         self.passwordfield.setEchoMode(QtWidgets.QLineEdit.Password)
         self.login.clicked.connect(self.loginfunction)
+    
+    def gotohome(self):
+        home = HomeScreen()
+        widget.addWidget(home)
+        widget.setCurrentIndex(widget.currentIndex()+1)
 
     def loginfunction(self):
         user = self.emailfield.text()
@@ -39,14 +48,11 @@ class LoginScreen(QDialog):
             self.error.setText("Please input all fields.")
 
         else:
-            conn = sqlite3.connect("shop_data.db")
-            cur = conn.cursor()
-            query = 'SELECT password FROM login_info WHERE username =\''+user+"\'"
-            cur.execute(query)
-            result_pass = cur.fetchone()[0]
+            result_pass = db.authenticateUser(user)
             if result_pass == password:
                 print("Successfully logged in.")
                 self.error.setText("")
+                self.login.clicked.connect(self.gotohome)
             else:
                 self.error.setText("Invalid username or password")
 
@@ -69,18 +75,40 @@ class CreateAccScreen(QDialog):
         elif password!=confirmpassword:
             self.error.setText("Passwords do not match.")
         else:
-            conn = sqlite3.connect("shop_data.db")
-            cur = conn.cursor()
+            result_pass = db.CreateUser(user,password)
 
-            user_info = [user, password]
-            cur.execute('INSERT INTO login_info (username, password) VALUES (?,?)', user_info)
+            if result_pass:
+                print("Successfully signed up.")
+                self.error.setText("")
+                self.signup.clicked.connect(self.gotologin)
+            else:
+                self.error.setText("Unable to create user")
 
-            conn.commit()
-            conn.close()
+            # fillprofile = FillProfileScreen()
+            # widget.addWidget(fillprofile)
+            # widget.setCurrentIndex(widget.currentIndex()+1)
+    
+    def gotologin(self):
+        login = LoginScreen()
+        widget.addWidget(login)
+        widget.setCurrentIndex(widget.currentIndex()+1)
 
-            fillprofile = FillProfileScreen()
-            widget.addWidget(fillprofile)
-            widget.setCurrentIndex(widget.currentIndex()+1)
+class HomeScreen(QDialog):
+    def __init__(self):
+        super(HomeScreen, self).__init__()
+        loadUi("./UI/home.ui",self)
+        self.startrecording.clicked.connect(self.recording)
+        self.stoprecording.clicked.connect(self.stoprecording)
+    
+    def recording(self):
+        print("Clicked")
+        # sr.screenRecording() ########################
+    
+    def stoprecording():
+        print('stop')
+        sys.exit()
+        print('stpped')
+        
 
 class FillProfileScreen(QDialog):
     def __init__(self):
