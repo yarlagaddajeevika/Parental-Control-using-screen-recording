@@ -24,3 +24,5 @@ for url in youtube_history:
         video_id.append(id_)
     else:
         print("No video ID found.")
+
+print(video_id)
