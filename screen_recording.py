@@ -58,6 +58,7 @@ while True:
         break
     # Capture screen and write to output video file
     img = np.array(ImageGrab.grab(bbox=(0,0,1920,1080)))
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB) # Convert color space from BGR to RGB
     out.write(img)
 
 # Release the capture and writer
@@ -71,7 +72,7 @@ audio_thread.join()
 
 # Combine the audio and video files into a single MP4 file
 import moviepy.editor as mp
-video = mp.VideoFileClip("output.mp4")
+video = mp.VideoFileClip("output.mp4", fps=30.0) # Set fps to match original recording
 audio = mp.AudioFileClip("audio.wav")
 final_output = video.set_audio(audio)
 final_output.write_videofile("final_output.mp4")
