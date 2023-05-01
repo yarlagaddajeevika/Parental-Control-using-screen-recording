@@ -28,9 +28,28 @@ def authenticateUser(username):
 
 def CreateUser(username,password):
   try:
-    cur.execute("INSERT INTO UserDetails (username, upassword) VALUES('x','a')")
+    cur.execute(f"""INSERT INTO UserDetails (username, upassword) VALUES({username},{password})""")
     cur.commit()
     return True
   except Exception as e:
     print("Unable to create User, database connection error")
     return False
+
+def returnUserId(username):
+  try:
+    cur.execute(f"""select userId from UserDetails where username={username}""")
+    for i in cur:
+      return i[0]
+  except Exception as e:
+    print("Unable to retrieve user id, database connection error")
+    return False
+
+def storeIdsCount(userid, counts):
+  for key, value in counts.items():
+    try:
+      cur.execute(f"""INSERT INTO StatisticsData VALUES({userid},{key},{value})""")
+      cur.commit()
+      return True
+    except Exception as e:
+      print("Unable to update statistics, database connection error")
+      return False
