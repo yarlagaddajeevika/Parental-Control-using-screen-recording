@@ -5,13 +5,15 @@ from PyQt5.QtWidgets import QDialog, QApplication, QWidget
 from PyQt5.QtGui import QPixmap
 import screen_recording as sr
 import load_model as lm
+import history as his
+
 import sys
 sys.path.append('database')
 import databaseConnection as db
 
 import sqlite3
 
-
+username=''
 class WelcomeScreen(QDialog):
     def __init__(self):
         super(WelcomeScreen, self).__init__()
@@ -43,6 +45,7 @@ class LoginScreen(QDialog):
 
     def loginfunction(self):
         user = self.emailfield.text()
+        username = user
         password = self.passwordfield.text()
 
         if len(user)==0 or len(password)==0:
@@ -99,24 +102,25 @@ class HomeScreen(QDialog):
     def __init__(self):
         super(HomeScreen, self).__init__()
         loadUi("./UI/home.ui",self)
-        self.start.clicked.connect(self.gotologin)
-        self.stop.clicked.connect(self.gotocreate)
+        self.start.clicked.connect(self.gotostart)
+        self.stop.clicked.connect(self.gotostop)
+        self.report.clicked.connect(self.gotoreport)
 
-    def gotologin(self):
-        print("start")
+    def gotostart(self):
         sr.record_screen_and_audio("recording.mp4")
 
-    def gotocreate(self):
-        print("stop")
+    def gotostop(self):
         lm.model()
+    
+    def gotoreport(self):
+        his.summaryReport()
+
 
 class FillProfileScreen(QDialog):
     def __init__(self):
         super(FillProfileScreen, self).__init__()
         loadUi("fillprofile.ui",self)
         self.image.setPixmap(QPixmap('placeholder.png'))
-
-
 
 # main
 app = QApplication(sys.argv)
