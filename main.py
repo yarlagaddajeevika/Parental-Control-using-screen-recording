@@ -6,6 +6,7 @@ from PyQt5.QtGui import QPixmap
 import screen_recording as sr
 import load_model as lm
 import history as his
+import graph as vg
 
 import sys
 sys.path.append('database')
@@ -87,10 +88,6 @@ class CreateAccScreen(QDialog):
                 self.signup.clicked.connect(self.gotologin)
             else:
                 self.error.setText("Unable to create user")
-
-            # fillprofile = FillProfileScreen()
-            # widget.addWidget(fillprofile)
-            # widget.setCurrentIndex(widget.currentIndex()+1)
     
     def gotologin(self):
         login = LoginScreen()
@@ -102,9 +99,18 @@ class HomeScreen(QDialog):
     def __init__(self):
         super(HomeScreen, self).__init__()
         loadUi("./UI/home.ui",self)
+        qpximapstart = QPixmap('./images/start.png')
+        qpximapstop = QPixmap('./images/stop.jpg')
+        qpximapreport = QPixmap('./images/report.jpg')
+        qpximapgraph = QPixmap('./images/graph.jpg')
+        self.graphimg.setPixmap(qpximapgraph)
+        self.reportimg.setPixmap(qpximapreport)
+        self.stopimg.setPixmap(qpximapstop)
+        self.startimg.setPixmap(qpximapstart)
         self.start.clicked.connect(self.gotostart)
         self.stop.clicked.connect(self.gotostop)
         self.report.clicked.connect(self.gotoreport)
+        self.graph.clicked.connect(self.gotograph)
 
     def gotostart(self):
         sr.record_screen_and_audio("recording.mp4")
@@ -114,13 +120,9 @@ class HomeScreen(QDialog):
     
     def gotoreport(self):
         his.summaryReport()
-
-
-class FillProfileScreen(QDialog):
-    def __init__(self):
-        super(FillProfileScreen, self).__init__()
-        loadUi("fillprofile.ui",self)
-        self.image.setPixmap(QPixmap('placeholder.png'))
+    
+    def gotograph(self):
+        vg.graphView()
 
 # main
 app = QApplication(sys.argv)
