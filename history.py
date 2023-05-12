@@ -6,8 +6,9 @@ from bs4 import BeautifulSoup
 
 video_id=[]
 
+#get browser history
 def getHistory():
-    f = Firefox()
+    f = Firefox() # for firefox
     outputs = f.fetch_history()
 
     # his is a list of (datetime.datetime, url) tuples
@@ -31,6 +32,7 @@ def getHistory():
     print(video_id)
     return video_id
 
+#get the title from the video id
 def get_video_title(video_id):
     url = f"https://www.youtube.com/watch?v={video_id}"
     response = requests.get(url)
@@ -38,6 +40,7 @@ def get_video_title(video_id):
     title = soup.find("title").text
     return title
 
+#append all the titles into an array
 def getAllTitles():
     video_id = getHistory()
     titles=[]
@@ -48,6 +51,7 @@ def getAllTitles():
 
     return titles
 
+#store the data into a database for future work if needed
 def storeIntoDatabase():
     video_id = getHistory()
     counts = {}
@@ -60,15 +64,21 @@ def storeIntoDatabase():
 
     if update_status:
         print("Successful update of statistics")
-    
-def summaryReport():
+
+#get the view counts
+def getCounts():
     video_id = getHistory()
     counts = {}
     for id_ in video_id:
         if id_ in counts:
             counts[id_] += 1
         else:
-            counts[id_] = 1
+            counts[id_] = 1 
+    return counts
+
+#formatting data to display it in a notepad
+def summaryReport():
+    video_id = getCounts()
     max_value = max(counts, key=counts.get)
     title = get_video_title(max_value)
     print(max_value,counts[max_value])
