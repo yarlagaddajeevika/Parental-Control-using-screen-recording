@@ -4,6 +4,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import MultinomialNB
 import history as his
 
+#Load the model and get the pattern
 def model():
     # Load dataset of keywords and categories
     data_df = pd.read_csv('./dataset.csv')
@@ -41,9 +42,9 @@ def model():
     # Open the file for writing
     with open('myfile.txt', 'a') as f:
         # Write data to the file
-        f.write('Summary:\nPattern of watching:\nYour kid spent most of the day watching ', prediction[0])
+        f.write(f"""Summary:\nPattern of watching:\nYour kid spent most of the day watching {prediction[0]}""")
  
-    # # Output the result
+    # # Output the result on to terminal
     if prediction[0] == 'Fiction':
         print("The majority of the titles belong to fiction.")
     else:
