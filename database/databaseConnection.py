@@ -16,16 +16,19 @@ conn= connector.connect(connection_string)
 #create a cursor to work on the database
 cur=conn.cursor()
 
-# 
+#Authenticate User
 def authenticateUser(username):
   try:
     cur.execute(f"""select * from UserDetails""")
     for i in cur:
-        return i[2]
+        if(i[2] == username):
+          print(i[2])
+          return i[2]
   except Exception as e:
     print("Unable to login, database connection error")
     return ''
 
+#Create new user
 def CreateUser(username,password):
   try:
     cur.execute(f"""INSERT INTO UserDetails (username, upassword) VALUES({username},{password})""")
@@ -35,6 +38,7 @@ def CreateUser(username,password):
     print("Unable to create User, database connection error")
     return False
 
+#Return user id
 def returnUserId(username):
   try:
     cur.execute(f"""select userId from UserDetails where username={username}""")
@@ -44,6 +48,7 @@ def returnUserId(username):
     print("Unable to retrieve user id, database connection error")
     return False
 
+#Store youtube histiry id  view count
 def storeIdsCount(userid, counts):
   for key, value in counts.items():
     try:
