@@ -78,7 +78,7 @@ def getCounts():
 
 #formatting data to display it in a notepad
 def summaryReport():
-    video_id = getCounts()
+    counts = getCounts()
     max_value = max(counts, key=counts.get)
     title = get_video_title(max_value)
     print(max_value,counts[max_value])
