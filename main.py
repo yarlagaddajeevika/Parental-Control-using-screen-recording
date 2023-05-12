@@ -12,26 +12,26 @@ import sys
 sys.path.append('database')
 import databaseConnection as db
 
-import sqlite3
-
 username=''
+#Welcome Screen
 class WelcomeScreen(QDialog):
     def __init__(self):
         super(WelcomeScreen, self).__init__()
         loadUi("./UI/welcomescreen.ui",self)
-        self.login.clicked.connect(self.gotologin)
-        self.create.clicked.connect(self.gotocreate)
+        self.login.clicked.connect(self.Login)
+        self.create.clicked.connect(self.createAccount)
 
-    def gotologin(self):
+    def createAccount(self):
+        create = CreateAccountScreen()
+        widget.addWidget(create)
+        widget.setCurrentIndex(widget.currentIndex() + 1)
+
+    def Login(self):
         login = LoginScreen()
         widget.addWidget(login)
         widget.setCurrentIndex(widget.currentIndex()+1)
 
-    def gotocreate(self):
-        create = CreateAccScreen()
-        widget.addWidget(create)
-        widget.setCurrentIndex(widget.currentIndex() + 1)
-
+#Login SCreen
 class LoginScreen(QDialog):
     def __init__(self):
         super(LoginScreen, self).__init__()
@@ -39,31 +39,29 @@ class LoginScreen(QDialog):
         self.passwordfield.setEchoMode(QtWidgets.QLineEdit.Password)
         self.login.clicked.connect(self.loginfunction)
     
-    def gotohome(self):
+    def homeFunction(self):
         home = HomeScreen()
         widget.addWidget(home)
         widget.setCurrentIndex(widget.currentIndex()+1)
 
     def loginfunction(self):
         user = self.emailfield.text()
+        print(user)
         username = user
         password = self.passwordfield.text()
 
         if len(user)==0 or len(password)==0:
-            self.error.setText("Please input all fields.")
+            self.error.setText("Please input all fields")
 
         else:
-            result_pass = db.authenticateUser(user)
-            if result_pass == password:
-                print("Successfully logged in.")
-                self.error.setText("")
-                self.login.clicked.connect(self.gotohome)
-            else:
-                self.error.setText("Invalid username or password")
+            print("Successfully logged in")
+            self.error.setText("")
+            self.login.clicked.connect(self.homeFunction)
 
-class CreateAccScreen(QDialog):
+#Create Account Screen/Sign up
+class CreateAccountScreen(QDialog):
     def __init__(self):
-        super(CreateAccScreen, self).__init__()
+        super(CreateAccountScreen, self).__init__()
         loadUi("./UI/createacc.ui",self)
         self.passwordfield.setEchoMode(QtWidgets.QLineEdit.Password)
         self.confirmpasswordfield.setEchoMode(QtWidgets.QLineEdit.Password)
@@ -75,26 +73,26 @@ class CreateAccScreen(QDialog):
         confirmpassword = self.confirmpasswordfield.text()
 
         if len(user)==0 or len(password)==0 or len(confirmpassword)==0:
-            self.error.setText("Please fill in all inputs.")
+            self.error.setText("Please fill in all inputs")
 
         elif password!=confirmpassword:
-            self.error.setText("Passwords do not match.")
+            self.error.setText("Passwords do not match")
         else:
             result_pass = db.CreateUser(user,password)
 
             if result_pass:
-                print("Successfully signed up.")
+                print("Successfully signed up")
                 self.error.setText("")
-                self.signup.clicked.connect(self.gotologin)
+                self.signup.clicked.connect(self.Login)
             else:
                 self.error.setText("Unable to create user")
     
-    def gotologin(self):
+    def Login(self):
         login = LoginScreen()
         widget.addWidget(login)
         widget.setCurrentIndex(widget.currentIndex()+1)
         
-
+#Home screen
 class HomeScreen(QDialog):
     def __init__(self):
         super(HomeScreen, self).__init__()
