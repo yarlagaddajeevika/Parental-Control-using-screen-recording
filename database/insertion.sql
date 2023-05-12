@@ -10,9 +10,9 @@ IF OBJECT_ID('UserDetails', 'U') IS NULL
 			 END
 
 USE PARENTALCONTROL
-INSERT INTO UserDetails VALUES('ab','ab')
-select upassword from UserDetails where username='jeevika'
 select * from UserDetails
+
+insert into StatisticsData values (8000000,'6Hyr45l',2)
 
 
 drop database PARENTALCONTROL
