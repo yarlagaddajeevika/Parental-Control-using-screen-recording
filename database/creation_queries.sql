@@ -31,7 +31,7 @@ ELSE
    BEGIN
 		CREATE TABLE StatisticsData(
 		  userId Integer NOT NULL FOREIGN KEY REFERENCES UserDetails(userId),
-		  youtubeId Integer NOT NULL,
+		  youtubeId varchar(40) NOT NULL,
 		  view_count Integer NOT NULL,
 		  PRIMARY KEY (userId,youtubeId)
 		  )
