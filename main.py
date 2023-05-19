@@ -82,7 +82,6 @@ class CreateAccountScreen(QDialog):
 
             if result_pass:
                 print("Successfully signed up")
-                self.error.setText("")
                 self.signup.clicked.connect(self.Login)
             else:
                 self.error.setText("Unable to create user")
@@ -114,9 +113,10 @@ class HomeScreen(QDialog):
         sr.record_screen_and_audio("recording.mp4")
 
     def gotostop(self):
-        lm.model()
+        print("Stopped")
     
     def gotoreport(self):
+        lm.model()
         his.summaryReport()
     
     def gotograph(self):

@@ -22,7 +22,6 @@ def authenticateUser(username):
     cur.execute(f"""select * from UserDetails""")
     for i in cur:
         if(i[2] == username):
-          print(i[2])
           return i[2]
   except Exception as e:
     print("Unable to login, database connection error")
@@ -31,11 +30,10 @@ def authenticateUser(username):
 #Create new user
 def CreateUser(username,password):
   try:
-    cur.execute(f"""INSERT INTO UserDetails (username, upassword) VALUES({username},{password})""")
+    cur.execute(f"""INSERT INTO UserDetails VALUES ('{username}','{password}')""")
     cur.commit()
     return True
   except Exception as e:
-    print("Unable to create User, database connection error")
     return False
 
 #Return user id

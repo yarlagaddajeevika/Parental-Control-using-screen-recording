@@ -4,21 +4,31 @@ import re
 import requests
 from bs4 import BeautifulSoup
 
-video_id=[]
+
 
 #get browser history
 def getHistory():
     f = Firefox() # for firefox
     outputs = f.fetch_history()
 
+    video_id=[]
+    #today's date
+    today = datetime.date.today().strftime("%Y-%m-%d")
+
     # his is a list of (datetime.datetime, url) tuples
     his = outputs.histories
 
     youtube_history=[]
     for date, event in his:
-        if 'youtube.com/watch' in event:
-            youtube_history.append(event)
-    
+        date_string = date.strftime("%Y-%m-%d")
+        if today in date_string:
+            print(today)
+            print(event)
+            if 'youtube.com/watch' in event:
+                youtube_history.append(event)
+
+    print('histories')
+    print(youtube_history)
     # extract the video ID using regular expressions
     for url in youtube_history:
         match = re.search(r'(?<=v=)[\w-]+', url)
@@ -80,6 +90,7 @@ def getCounts():
 def summaryReport():
     counts = getCounts()
     max_value = max(counts, key=counts.get)
+    print(max_value)
     title = get_video_title(max_value)
     print(max_value,counts[max_value])
     with open('myfile.txt', 'a') as fw:
