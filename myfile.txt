@@ -1,0 +1,10 @@
+Summary:
+Pattern of watching:
+Your kid spent most of the day watching Non-Fiction
+Most frequently watched Video:
+	Your kid has watched the video https://www.youtube.com/watch?v=qVTAB8Z2VmA, 2 times in the day
+	Title: What is REST API? | Web Service - YouTube
+
+List of urls visited:
+	https://www.youtube.com/watch?v=qVTAB8Z2VmA, view count:2
+	https://www.youtube.com/watch?v=BZi44GOD8kY, view count:1

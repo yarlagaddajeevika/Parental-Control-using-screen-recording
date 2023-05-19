@@ -113,8 +113,14 @@ class HomeScreen(QDialog):
         sr.record_screen_and_audio("recording.mp4")
 
     def gotostop(self):
-        print("Stopped")
-    
+        keyboard.press('f9')
+
+        if keyboard.is_pressed('f9'):
+            print("The 'f9' key is currently pressed and the recording will be stopped")
+        else:
+            print("Your system has some issues to trigger the key press")
+            print("Please press F9 on keyboard to stop the recording")
+
     def gotoreport(self):
         lm.model()
         his.summaryReport()
