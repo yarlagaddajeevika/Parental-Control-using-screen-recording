@@ -1,6 +1,6 @@
 # Parental-Control-using-screen-recording
 
-###A little background on what this project is going to be.
+### A little background on what this project is going to be.
 
 Perfect parenting is a myth, but every parent makes an effort to raise happy, motivated,
 well-behaved, problem-free children. In this enduring journey, they need to help the kids
